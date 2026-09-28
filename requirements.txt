@@ -1,0 +1,5 @@
+# Libreras necesarias 
+streamlit 
+duckdb
+pandas
+plotly
