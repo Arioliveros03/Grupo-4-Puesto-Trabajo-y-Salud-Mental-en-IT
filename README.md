@@ -37,9 +37,17 @@ En proceso
 ## 📁 Estructura del Repositorio
 
 ```
+├── app.py                    # Código principal de la App de Streamlit
 ├── requirements.txt          # Librerias de Python.
 ├── README.md.                # Documentación del repositorio.
-
+│
+├── pages/
+│   ├── 01_Inicio.py                # Página de inicio
+│   ├── 02_Marco_Metodologico.py    # Operacionalización y metodología
+│   ├── 03_Marco_Teorico.py         # Fundamentos conceptuales
+│   ├── 05_Conclusiones.py          # Hallazgos y recomendaciones
+│   └── 06_Bibliografia.py          # Referencias bibliográficas
+│
 ```
 --- 
 ## 🔍 Equipo de investigación
