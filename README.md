@@ -1,39 +1,48 @@
+# Puesto de Trabajo y su Relación con la Salud Mental en el Ámbito Tecnológico
+
 ![Puesto de Trabajo y su Relación con la Salud Mental en el Ámbito Tecnológico: Un Análisis Estadístico del Impacto en el Desarrollo Profesional](assets/banner.png)
 
 ## Descripción del Proyecto
-Este proyecto analiza si el puesto de trabajo dentro de una empresa tecnológica se relaciona con la edad de los encuestados y con su experiencia de impacto en el desarrollo profesional a causa de su salud mental, mediante ANOVA de dos factores y Análisis de Correspondencia.
+
+Este proyecto analiza cómo difieren las percepciones de perjuicio profesional por motivos de salud mental según el nivel jerárquico del puesto de trabajo y el grupo de edad en trabajadores del sector tecnológico, utilizando datos de la encuesta OSMI Mental Health in Tech Survey. El estudio emplea un ANOVA factorial de dos vías con interacción como técnica inferencial principal, complementado con análisis descriptivo y visualización de datos para explorar las diferencias entre los grupos e identificar los segmentos más vulnerables.
 
 ---
 
 ## 🔬 Metodología Estadística
 
-Investigación de nivel exploratorio y correlacional, con diseño no experimental, transversal y documental sobre fuente secundaria. Al trabajar con una muestra no probabilística y de participación voluntaria, los resultados no permiten generalizaciones estrictas a toda la población del sector tecnológico global. En consecuencia, la inferencia estadística se aborda de manera exploratoria mediante un ANOVA factorial de dos vías y un análisis de correspondencia, interpretando los hallazgos dentro de las limitaciones del sesgo de autoselección.
+Investigación de nivel descriptivo-correlacional, con diseño no experimental, transversal y documental sobre fuente secundaria. Al trabajar con una muestra no probabilística y de participación voluntaria, los resultados no permiten generalizaciones estrictas a toda la población del sector tecnológico global. En consecuencia, la inferencia estadística se aborda mediante un ANOVA factorial de dos vías con interacción como única técnica inferencial. Los hallazgos se complementan con análisis descriptivo y visualización de datos para explorar las diferencias entre los grupos, y se interpretan dentro de las limitaciones del sesgo de autoselección.
 
 ### Pregunta de la Investigación
-> ¿Difiere, según el nivel jerárquico del puesto de trabajo, la relación entre la
-> edad de los trabajadores del sector tecnológico y su percepción de perjuicio
-> profesional por motivos de salud mental?
 
-### Objetivos específicos 
-1. Determinar  el efecto de la categoría laboral sobre la edad de los encuestados.
-2. Analizar la variación de la edad según la presencia o ausencia de perjuicio percibido en el desarrollo profesional por motivos de la salud mental.
-3. Identificar la existencia de un efecto de interacción entre el puesto de trabajo y la percepción de perjuicio en la carrera sobre la edad del trabajador.
-4. Explorar la asociación entre la categoría del puesto de trabajo y el nivel de confianza hacia el liderazgo de la organización mediante un Análisis de correspondencia. 
+> ¿Difiere la percepción de perjuicio profesional por motivos de salud mental según el nivel jerárquico y el grupo de edad en el sector tecnológico?
+
+### Objetivos específicos
+
+1. Caracterizar socio-demográficamente a la muestra de trabajadores del sector tecnológico (edad, género, nivel jerárquico y país).
+2. Describir la distribución de la percepción de perjuicio profesional por nivel jerárquico y grupo de edad.
+3. Analizar la relación entre la edad y la percepción de perjuicio dentro de cada nivel jerárquico.
+4. Determinar si existen diferencias significativas en la percepción de perjuicio según el nivel jerárquico y el grupo de edad, y si existe interacción entre ambos factores.
 
 ## 🛠️ Arquitectura del Proyecto
-En proceso  
+
+En proceso
 
 ### ¿Por qué este conjunto de herramientas?
+
 En proceso
 
 ### Base de datos
+
 ### 📌 [**Mental Health in the Tech Industry**](https://www.kaggle.com/datasets/anth7310/mental-health-in-the-tech-industry)
 
 ---
 
 ## Guía de instalación y uso:
+
 En proceso
+
 ---
+
 ## 📁 Estructura del Repositorio
 
 ```
