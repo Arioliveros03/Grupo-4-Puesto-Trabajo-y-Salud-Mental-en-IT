@@ -4,21 +4,19 @@ import streamlit as st
 from dotenv import load_dotenv
 from styles import load_css
 
-# config de la pagina
 st.set_page_config(page_title="Salud mental en IT", page_icon="🧠", layout="wide")
 load_css()
 
-# paginas (mismos archivos de pages/)
 inicio        = st.Page("pages/00_Inicio.py",             title="Inicio",             icon="🏠", default=True)
 planteamiento = st.Page("pages/01_Planteamiento.py",      title="Planteamiento",      icon="🔍")                
 marco_teorico = st.Page("pages/02_Marco_Teorico.py",      title="Marco Teórico",      icon="📚")
 marco_metodo  = st.Page("pages/03_Marco_Metodologico.py", title="Marco Metodológico", icon="🧪")
+resultados    = st.Page("pages/04_Resultados.py",         title="Resultados",         icon="📊")
 cuestionario  = st.Page("pages/05_Cuestionario_SQL.py",   title="Cuestionario SQL",   icon="🗄️")
-conclusiones  = st.Page("pages/04_Conclusiones.py",       title="Conclusiones",       icon="✅")
 bibliografia  = st.Page("pages/06_Bibliografia.py",       title="Bibliografía",       icon="🔗")
 
 pg = st.navigation(
-    [inicio, planteamiento, marco_teorico, marco_metodo, cuestionario, conclusiones, bibliografia],
+    [inicio, planteamiento, marco_teorico, marco_metodo, resultados, cuestionario, bibliografia],
     position="hidden",
 )
 
@@ -27,36 +25,33 @@ def boton(pagina, n):
     with st.container(key=f"btn-{n}{activo}"):
         st.page_link(pagina)
 
-
-# sidebar
 with st.sidebar:
     st.markdown("## 🧠 Salud mental en IT")
     st.caption("Percepción de perjuicio profesional · Sector tecnológico")
     st.write("")
 
-    boton(inicio, 6)                     
+    boton(inicio, 0)                     
     st.write("")
 
     st.caption("**INVESTIGACIÓN**")
-    boton(planteamiento, 0)
-    boton(marco_teorico, 1)
-    boton(marco_metodo,  2)
+    boton(planteamiento, 1)
+    boton(marco_teorico, 2)
+    boton(marco_metodo,  3)
 
     st.write("")
-    st.caption("**RESULTADOS**")
-    boton(cuestionario, 3)
-    boton(conclusiones, 4)
+    st.caption("**ANÁLISIS**")
+    boton(resultados, 4)
+    boton(cuestionario, 5)
 
     st.write("")
     with st.expander("📎 Referencias y equipo", expanded=False):
-        boton(bibliografia, 5)
+        boton(bibliografia, 6)
         st.write("")
         st.markdown("**👥 Equipo**")
         for n in ["Nicole Altera", "Danmara Dos Ramos", "Arianna Oliveros",
                 "Camila Santiago", "Sebastian Soto"]:
             st.write(n)
 
-# conexión a motherduck
 load_dotenv()
 
 @st.cache_resource(show_spinner="Conectando a MotherDuck...")
@@ -68,4 +63,5 @@ try:
 except Exception as e:
     st.session_state["conn"] = None
     st.sidebar.error(f"Sin conexión a la base de datos: {e}")
+
 pg.run()
