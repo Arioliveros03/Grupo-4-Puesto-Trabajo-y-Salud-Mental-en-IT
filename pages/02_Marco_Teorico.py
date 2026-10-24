@@ -6,6 +6,7 @@ st.set_page_config(
     layout="wide",
 )
 
+st.image("assets/marco teorico.png", use_container_width=True)
 st.markdown("""
 ## 1. Antecedentes de la investigación 
 

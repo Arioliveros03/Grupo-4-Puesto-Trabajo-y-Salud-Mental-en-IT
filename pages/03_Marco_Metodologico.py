@@ -110,7 +110,7 @@ with tab3:
     st.markdown("### Creación de la variable `nivel_jerarquico`")
     st.markdown("Se creó la columna con las categorías a partir de las siguientes reglas de asignación:")
     
-       st.table({
+    st.table({
         "Nivel Asignado": ["Directivo", "Coordinación", "Operativo", "Excluir"],
         "Puestos Originales": [
             "Executive Leadership", 
