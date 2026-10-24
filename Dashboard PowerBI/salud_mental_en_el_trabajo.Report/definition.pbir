@@ -1,0 +1,8 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../salud_mental_en_el_trabajo.SemanticModel"
+    }
+  }
+}

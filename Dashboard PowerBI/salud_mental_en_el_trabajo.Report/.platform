@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "salud_mental_en_el_trabajo"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4f07c807-6f9d-41db-9524-192963a4ae34"
+  }
+}
