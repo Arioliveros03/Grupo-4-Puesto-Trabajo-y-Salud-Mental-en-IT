@@ -35,6 +35,14 @@ SELECT
 FROM categoria_laboral
 DROP TABLE categoria_laboral;
 ALTER TABLE categoria_laboral_temp RENAME TO Categoria_Laboral;
+
+UPDATE categoria_laboral 
+SET primer_trabajo = 'Not applicable'
+WHERE primer_trabajo = 'Not applicable / No experience';
+
+UPDATE ayuda_laboral
+SET beneficios_salud_mental = 'Not specified'
+WHERE beneficios_salud_mental = 'Not eligible for coverage / NA';
     --colimnas compania_estech y primer trabajo 
 SELECT 
     participanteID , 
@@ -42,6 +50,11 @@ SELECT
     primer_trabajo
 FROM categoria_laboral
 WHERE compania_estech IS NOT NULL AND primer_trabajo IS NOT NULL;
+
+UPDATE categoria_laboral AS cl
+SET paisID = p2.paistexto
+FROM pais AS p2
+WHERE p2.paisID = cl.paisID;
 
 SELECT 
     participanteID,
@@ -53,6 +66,11 @@ UPDATE categoria_laboral
 SET 
     compania_estech = COALESCE(compania_estech, 'Not applicable / No experience'),
     primer_trabajo = COALESCE(primer_trabajo, 'Not applicable / No experience');
+
+UPDATE categoria_laboral AS cl 
+SET paisID = p2.paisID
+FROM pais AS p2
+WHERE p2.paistexto = cl.paisID
 
 --participante
 BEGIN TRANSACTION;
@@ -77,6 +95,12 @@ FROM participante;
 
 DROP TABLE participante;
 ALTER TABLE participante_temp RENAME TO participantes;
+
+UPDATE participantes AS p
+SET paisID = p2.paistexto
+FROM pais AS p2
+WHERE p2.paisID = p.paisID
+	
 
 --edad 
 SELECT ROUND(
@@ -171,3 +195,53 @@ SELECT
 FROM impacto_profesional;
 DROP TABLE impacto_profesional  ;
 ALTER TABLE impacto_profesional_temp   RENAME TO Impacto_profesional
+
+	UPDATE impacto_profesional AS ip 
+SET afecta_carrera = CASE
+    WHEN afecta_carrera = 'No, I don''t think it would' THEN 'No'
+    WHEN afecta_carrera = 'Yes, I think it would' THEN 'Yes'
+    ELSE afecta_carrera
+END
+WHERE afecta_carrera IN ('No, I don''t think it would', 'Yes, I think it would');
+
+UPDATE impacto_profesional AS ip 
+SET afecta_carrera = CASE
+    WHEN afecta_carrera = 'No, it has not' THEN 'No'
+    WHEN afecta_carrera = 'Yes, it has' THEN 'Yes'
+    ELSE afecta_carrera
+END
+WHERE afecta_carrera IN ('No, it has not', 'Yes, it has');
+
+-- prejuicio_salud_memtal
+UPDATE prejuicio_salud_mental 
+SET crees_te_verian_mal =
+CASE 
+	WHEN crees_te_verian_mal = 'No, I don''t think they would' THEN 'No'
+	WHEN crees_te_verian_mal = 'Yes, they do' THEN 'Yes'
+	WHEN crees_te_verian_mal = 'No, they do not' THEN 'No'
+	WHEN crees_te_verian_mal = 'Yes, I think they would' THEN 'Yes'
+END
+WHERE crees_te_verian_mal IN ('No, I don''t think they would', 'Yes, they do', 'No, they do not', 'Yes, I think they would')
+
+--pais 
+CREATE TEMP TABLE pais_backup AS SELECT * FROM pais ORDER BY paisid;
+
+DELETE FROM pais;
+
+UPDATE sqlite_sequence SET seq = 0 WHERE name = 'pais';
+
+INSERT INTO pais(paistexto) SELECT paistexto FROM pais_backup;
+
+DROP TABLE pais_backup;
+
+--estadoEEUU
+
+CREATE TEMP TABLE estado_backup AS SELECT * FROM estado_EEUU ORDER BY estado_EEUUID;
+
+DELETE FROM estado_EEUU;
+
+UPDATE sqlite_sequence SET seq = 0 WHERE name = 'estado_EEUU';
+
+INSERT INTO estado_EEUU (estadotexto) SELECT estadotexto FROM estado_backup;
+
+DROP TABLE estado_backup;
