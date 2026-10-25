@@ -3,14 +3,17 @@ from pathlib import Path
 import pandas as pd
 
 # rutas
-RUTA_BD_SQL = Path("/Users/nicole/Desktop/trabajo final pt2/mental_health_normalizada (1)") 
-RUTA_ORIGINAL = Path("/Users/nicole/Desktop/trabajo final pt2/mental_health_normalizada.backup") 
-RUTA_RAW = Path("/Users/nicole/Desktop/trabajo final/mental_health.sqlite")
-RUTA_SALIDA = Path("mental_health_limpia.sqlite")  
+RUTA_BD_SQL = Path("./mental_health_normalizada (1)")
+RUTA_ORIGINAL = Path("./mental_health_normalizada.backup")
+RUTA_RAW = Path("./mental_health.sqlite")
+RUTA_SALIDA = Path("./mental_health_limpia.sqlite") 
 
 con_norm = sqlite3.connect(RUTA_BD_SQL.resolve().as_uri() + "?mode=ro", uri=True)
 con_orig = sqlite3.connect(RUTA_ORIGINAL.resolve().as_uri() + "?mode=ro", uri=True)
 con_raw = sqlite3.connect(RUTA_RAW.resolve().as_uri() + "?mode=ro", uri=True)
+
+with open("./abd.sql", "r", encoding="utf-8") as f:
+    contenido = f.read()
 
 def leer(con, tabla):
     return pd.read_sql(f'SELECT * FROM "{tabla}"', con)

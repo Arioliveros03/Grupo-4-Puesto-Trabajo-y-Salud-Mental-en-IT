@@ -1,6 +1,6 @@
 # Libreras necesarias 
 streamlit 
-duckdb
+duckdb==1.5.2
 pandas
 plotly
 python-dotenv
