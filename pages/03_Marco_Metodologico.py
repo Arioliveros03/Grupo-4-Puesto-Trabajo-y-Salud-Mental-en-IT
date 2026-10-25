@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.set_page_config(page_title="Marco Metodológico", page_icon="🧪", layout="wide")
 
@@ -169,3 +170,202 @@ with tab5:
             "a los de `primer_trabajo` (preguntaba por el empleador anterior de 2017-2019, no el actual). "
             "Además, la clasificación del tipo de empresa no resulta relevante para los objetivos del análisis."
         )
+
+st.divider()
+
+st.header("5. Diccionario de Datos")
+st.markdown("A continuación se detalla la estructura de las tablas que conforman la base de datos normalizada, indicando el tipo de dato y el uso de cada variable en el análisis estadístico.")
+
+dict_tab1, dict_tab2, dict_tab3, dict_tab4 = st.tabs([
+    "👤 Participantes", 
+    "💼 Categoría Laboral", 
+    "🧠 Estado Mental", 
+    "📚 Catálogos"
+])
+
+with dict_tab1:
+    st.subheader("Tabla: Participantes")
+    df_participantes = pd.DataFrame({
+        "Variable": ["participanteID", "edad", "generoID", "paisID", "estado_EEUUID"],
+        "Tipo": ["Integer", "Integer", "Integer", "Integer", "Integer"],
+        "Descripción": [
+            "Identificador único del participante (PK)", 
+            "Edad del participante", 
+            "Indicador del género (FK)", 
+            "Indicador del país donde vive (FK)", 
+            "Indicador del estado de EEUU donde vive (FK)"
+        ],
+        "Uso en el Proyecto": [
+            "Identificación primaria", 
+            "Variable independiente (Agrupada en rangos)", 
+            "Perfil descriptivo (Objetivo 1)", 
+            "Perfil descriptivo (Objetivo 1)", 
+            "Contexto geográfico"
+        ]
+    })
+    st.dataframe(df_participantes, hide_index=True, use_container_width=True)
+
+with dict_tab2:
+    st.subheader("Tabla: Categoría Laboral")
+    df_categoria = pd.DataFrame({
+        "Variable": ["participanteID", "encuestaID", "puesto_trabajoID", "trabajo_remoto", "paisID", "estado_EEUUID", "independiente_trabajo"],
+        "Tipo": ["Integer", "Integer", "Integer", "Varchar", "Integer", "Integer", "Integer"],
+        "Descripción": [
+            "Indicador del participante (FK/PK)", 
+            "Indicador de la encuesta (FK/PK)", 
+            "Indicador del puesto de trabajo (FK)", 
+            "Identifica si trabaja a distancia", 
+            "Indicador del país donde trabaja (FK)", 
+            "Indicador del estado donde trabaja (FK)", 
+            "Identifica si trabaja de forma independiente"
+        ],
+        "Uso en el Proyecto": [
+            "Llave de unión", 
+            "Trazabilidad temporal", 
+            "Variable independiente (Nivel)", 
+            "Análisis descriptivo", 
+            "Contexto geográfico", 
+            "Contexto geográfico", 
+            "Contexto laboral"
+        ]
+    })
+    st.dataframe(df_categoria, hide_index=True, use_container_width=True)
+
+    st.subheader("Tabla: Puesto de Trabajo")
+    df_puesto = pd.DataFrame({
+        "Variable": ["puesto_trabajoID", "puestotexto", "nivel_jerarquico"],
+        "Tipo": ["Integer", "Text", "Text"],
+        "Descripción": [
+            "Identificador único del puesto de trabajo (PK)", 
+            "Nombre del puesto de trabajo", 
+            "Nivel jerárquico de los trabajos"
+        ],
+        "Uso en el Proyecto": [
+            "Identificación primaria", 
+            "Clasificación original", 
+            "Variable independiente principal para el ANOVA"
+        ]
+    })
+    st.dataframe(df_puesto, hide_index=True, use_container_width=True)
+
+with dict_tab3:
+    st.subheader("Tabla: Estado Mental")
+    df_estado = pd.DataFrame({
+        "Variable": ["participanteID", "encuestaID", "diagnostico_oficial", "busco_tratamiento", "condiciones_diagnosticadas"],
+        "Tipo": ["Integer", "Integer", "Varchar", "Integer", "Text (Json)"],
+        "Descripción": [
+            "Indicador del participante (FK/PK)", 
+            "Indicador de la encuesta (FK/PK)", 
+            "Identifica si el participante presenta algún diagnóstico", 
+            "Identifica si ha buscado tratamiento", 
+            "Describe los diagnósticos múltiples o únicos"
+        ],
+        "Uso en el Proyecto": [
+            "Llave de unión", 
+            "Trazabilidad temporal", 
+            "Contexto clínico", 
+            "Perfil descriptivo", 
+            "Análisis secundario"
+        ]
+    })
+    st.dataframe(df_estado, hide_index=True, use_container_width=True)
+
+    st.subheader("Tabla: Prejuicio Salud Mental")
+    df_prejuicio = pd.DataFrame({
+        "Variable": ["participanteID", "encuestaID", "crees_te_verian_mal", "comentarios_malos", "consecuencias_negativas"],
+        "Tipo": ["Integer", "Integer", "Varchar", "Varchar", "Varchar"],
+        "Descripción": [
+            "Indicador del participante (FK/PK)", 
+            "Indicador de la encuesta (FK/PK)", 
+            "Identifica si cree que sería mal visto por tener problemas de salud mental", 
+            "Identifica si ha escuchado comentarios negativos", 
+            "Identifica si ha visto consecuencias negativas en personas que expresaron sus padecimientos"
+        ],
+        "Uso en el Proyecto": [
+            "Llave de unión", 
+            "Trazabilidad temporal", 
+            "Variable dependiente principal para el ANOVA", 
+            "Variable de apoyo (Estigma observado)", 
+            "Variable de apoyo (Perjuicio observado)"
+        ]
+    })
+    st.dataframe(df_prejuicio, hide_index=True, use_container_width=True)
+
+    st.subheader("Tabla: Impacto Profesional")
+    df_impacto = pd.DataFrame({
+        "Variable": ["participanteID", "encuestaID", "afecta_carrera", "interfiere_trabajo"],
+        "Tipo": ["Integer", "Integer", "Varchar", "Varchar"],
+        "Descripción": [
+            "Indicador del participante (FK/PK)", 
+            "Indicador de la encuesta (FK/PK)", 
+            "Identifica si los problemas de salud mental afectan su carrera", 
+            "Identifica si los problemas afectan su trabajo"
+        ],
+        "Uso en el Proyecto": [
+            "Llave de unión", 
+            "Trazabilidad temporal", 
+            "Variable alternativa de perjuicio", 
+            "Análisis de contexto"
+        ]
+    })
+    st.dataframe(df_impacto, hide_index=True, use_container_width=True)
+
+    st.subheader("Tabla: Ayuda Laboral")
+    df_ayuda = pd.DataFrame({
+        "Variable": ["participanteID", "encuestaID", "recursos_empresa_ayuda_mental", "discucion_formal_salud_mental", "conoces_opciones_ayuda", "beneficios_salud_mental", "anonimato_protegido"],
+        "Tipo": ["Integer", "Integer", "Varchar", "Varchar", "Varchar", "Varchar", "Varchar"],
+        "Descripción": [
+            "Indicador del participante (FK/PK)", 
+            "Indicador de la encuesta (FK/PK)", 
+            "Percepción de si la empresa ofrece recursos de ayuda", 
+            "Percepción de si hay discusiones formales sobre el tema", 
+            "Percepción de si conoce opciones de ayuda", 
+            "Percepción de si la empresa ofrece beneficios", 
+            "Percepción de si la empresa ofrece anonimato y seguridad"
+        ],
+        "Uso en el Proyecto": [
+            "Llave de unión", 
+            "Trazabilidad temporal", 
+            "Variables de confianza en el liderazgo", 
+            "Variables de confianza en el liderazgo", 
+            "Variables de confianza en el liderazgo", 
+            "Variables de confianza en el liderazgo", 
+            "Variables de confianza en el liderazgo"
+        ]
+    })
+    st.dataframe(df_ayuda, hide_index=True, use_container_width=True)
+
+with dict_tab4:
+    st.subheader("Tablas Catálogo")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("**Encuesta**")
+        df_encuesta = pd.DataFrame({
+            "Variable": ["encuestaID", "encuestatexto"],
+            "Descripción": ["Identificador único de la encuesta (PK)", "Nombre y año de la encuesta"]
+        })
+        st.dataframe(df_encuesta, hide_index=True, use_container_width=True)
+
+        st.markdown("**Género**")
+        df_genero = pd.DataFrame({
+            "Variable": ["generoID", "generotexto"],
+            "Descripción": ["Identificador único del género (PK)", "Nombre de los géneros"]
+        })
+        st.dataframe(df_genero, hide_index=True, use_container_width=True)
+
+    with col2:
+        st.markdown("**País**")
+        df_pais = pd.DataFrame({
+            "Variable": ["PaisID", "paistexto"],
+            "Descripción": ["Identificador único del país (PK)", "Nombre del país"]
+        })
+        st.dataframe(df_pais, hide_index=True, use_container_width=True)
+
+        st.markdown("**Estados EEUU**")
+        df_estados = pd.DataFrame({
+            "Variable": ["estado_EEUUID", "estadotexto"],
+            "Descripción": ["Identificador único para el estado (PK)", "Nombre del estado de EEUU"]
+        })
+        st.dataframe(df_estados, hide_index=True, use_container_width=True)
