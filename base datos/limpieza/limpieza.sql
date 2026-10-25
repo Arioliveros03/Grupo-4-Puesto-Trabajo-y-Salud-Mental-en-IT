@@ -15,6 +15,8 @@ DROP TABLE ayuda_laboral ;
 ALTER TABLE ayuda_laboral_temp RENAME TO Ayuda_Laboral;
 
 UPDATE ayuda_laboral 
+SET beneficios_salud_mental = 'Not specified'
+WHERE beneficios_salud_mental = 'Not eligible for coverage / NA';
 
 --categoria laboral
 DELETE FROM categoria_laboral 
@@ -53,6 +55,20 @@ UPDATE categoria_laboral
 SET 
     compania_estech = COALESCE(compania_estech, 'Not applicable / No experience'),
     primer_trabajo = COALESCE(primer_trabajo, 'Not applicable / No experience');
+UPDATE categoria_laboral 
+SET primer_trabajo = 'Not applicable'
+WHERE primer_trabajo = 'Not applicable / No experience';
+
+categoria_laboral AS cl
+SET paisID = p2.paistexto
+FROM pais AS p2
+WHERE p2.paisID = cl.paisID;
+
+UPDATE categoria_laboral AS cl
+SET estado_EEUUID = ee.Estadotexto 
+FROM estado_EEUU AS ee
+WHERE ee.estado_EEUUID = cl.estado_EEUUID;
+
 
 --participante
 BEGIN TRANSACTION;
@@ -77,6 +93,14 @@ FROM participante;
 
 DROP TABLE participante;
 ALTER TABLE participante_temp RENAME TO participantes;
+UPDATE participantes AS p
+SET paisID = p2.paistexto
+FROM pais AS p2
+WHERE p2.paisID = p.paisID;
+UPDATE participantes AS p
+SET estado_EEUUID = ee.Estadotexto 
+FROM estado_EEUU AS ee
+WHERE ee.estado_EEUUID = p.estado_EEUUID;
 
 --edad 
 SELECT ROUND(
@@ -171,3 +195,62 @@ SELECT
 FROM impacto_profesional;
 DROP TABLE impacto_profesional  ;
 ALTER TABLE impacto_profesional_temp   RENAME TO Impacto_profesional
+
+UPDATE impacto_profesional AS ip 
+SET afecta_carrera = CASE
+    WHEN afecta_carrera = 'No, I don''t think it would' THEN 'No'
+    WHEN afecta_carrera = 'Yes, I think it would' THEN 'Yes'
+    ELSE afecta_carrera
+END
+WHERE afecta_carrera IN ('No, I don''t think it would', 'Yes, I think it would');
+
+UPDATE impacto_profesional AS ip 
+SET afecta_carrera = CASE
+    WHEN afecta_carrera = 'No, it has not' THEN 'No'
+    WHEN afecta_carrera = 'Yes, it has' THEN 'Yes'
+    ELSE afecta_carrera
+END
+WHERE afecta_carrera IN ('No, it has not', 'Yes, it has');
+
+--estadoEEUU
+
+CREATE TEMP TABLE estado_backup AS SELECT * FROM estado_EEUU ORDER BY estado_EEUUID;
+
+DELETE FROM estado_EEUU;
+
+UPDATE sqlite_sequence SET seq = 0 WHERE name = 'estado_EEUU';
+
+INSERT INTO estado_EEUU (estadotexto) SELECT estadotexto FROM estado_backup;
+
+DROP TABLE estado_backup;
+
+
+--pais 
+
+CREATE TEMP TABLE pais_backup AS SELECT * FROM pais ORDER BY paisid;
+
+DELETE FROM pais;
+
+UPDATE sqlite_sequence SET seq = 0 WHERE name = 'pais';
+
+INSERT INTO pais(paistexto) SELECT paistexto FROM pais_backup;
+
+DROP TABLE pais_backup;
+
+--impato_profesional 
+UPDATE impacto_profesional AS ip 
+SET afecta_carrera = CASE
+    WHEN afecta_carrera = 'No, I don''t think it would' THEN 'No'
+    WHEN afecta_carrera = 'Yes, I think it would' THEN 'Yes'
+    ELSE afecta_carrera
+END
+WHERE afecta_carrera IN ('No, I don''t think it would', 'Yes, I think it would');
+
+UPDATE impacto_profesional AS ip 
+SET afecta_carrera = CASE
+    WHEN afecta_carrera = 'No, it has not' THEN 'No'
+    WHEN afecta_carrera = 'Yes, it has' THEN 'Yes'
+    ELSE afecta_carrera
+END
+WHERE afecta_carrera IN ('No, it has not', 'Yes, it has');
+
